@@ -4,6 +4,8 @@ import os
 
 from handlers import main_router
 
+from database.base import DataBase
+
 bot_app = Bot(token=os.getenv('TOKEN'))
 dp = Dispatcher()
 
@@ -19,6 +21,8 @@ def on_shutdown():
 
 
 async def start_bot():
+    db = DataBase()
+    db.create_main_table()
     dp.startup.register(on_start)
     dp.shutdown.register(on_shutdown)
     await dp.start_polling(bot_app)
